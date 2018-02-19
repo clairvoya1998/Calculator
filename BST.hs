@@ -1,12 +1,15 @@
 import qualified Data.List
 import Data.Char
 
+-- BST Tree constructor for one variable
 data (Ord a, Eq a) => Tree a = Nil | Node (Tree a) a (Tree a)
         deriving Show
 
+-- Constructor to store both name and int
 data (Ord a, Eq a) => Tree2 a b = Nil | Node (Tree2 a Int) a Int (Tree2 a Int)
         deriving Show
 
+-- Check whether is a empty tree
 empty2 :: (Ord a) => Tree2 a Int -> Bool
 empty2 Nil = True
 empty2 _ _ = False
@@ -15,6 +18,7 @@ empty :: (Ord a) => Tree a -> Bool
 empty Nil = True
 empty _ = False
 
+-- Check whether the variable is contained
 contains2 :: (Ord a) => (Tree2 a Int) -> Bool
 contains Nil _ _ = False
 contains (Node b1 v m b2) x y
@@ -23,6 +27,8 @@ contains (Node b1 v m b2) x y
          | x  > v = contains b2 x
          | otherwise False
 
+
+-- Return the int from name
 get2 :: (Ord a) => (Tree2 a Int) -> a -> Int
 get2 (Node b1 v m b2) x
          | x == v = m
@@ -39,10 +45,11 @@ contains (Node b1 v b2) x
          | x  > v = contains b2 x
          | otherwise False
 
+-- Insert a new pair of (name, int)
 insert2 :: (Ord a) => Tree2 a Int -> a -> Int -> Tree2 a Int
 insert2 Nil x y = Node Nil x y Nil
 insert2 (Node b1  v m b2) x y
-       | v == x = Node b1 v y b2
+       | v == x = Node b1 x y b2
        | v  < x = Node b1 v m (insert2 b2 x y)
        | v  > x = Node (insert2 b1 x y) v m b2
 
@@ -54,6 +61,7 @@ insert (Node b1 v b2) x
        | v  > x = Node (insert b1 x) v b2
 
 
+-- Deleting operation for further application
 delete :: (Ord a) => Tree a -> a -> Tree a
 delete Nil _ = Nil
 delete (Node b1 v b2) x
